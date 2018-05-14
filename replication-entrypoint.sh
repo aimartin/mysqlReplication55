@@ -2,7 +2,7 @@
 echo "Initiating MysqlReplication"
 set -eo pipefail
 
-cat > /etc/mysql/mysql.conf.d/repl.cnf << EOF
+cat > /etc/mysql/conf.d/repl.cnf << EOF
 [mysqld]
 log-bin=mysql-bin
 relay-log=mysql-relay
@@ -42,7 +42,7 @@ else
   export SERVER_ID=`echo $(( ( ${DATE} % 50 ) + 2 ))` #Generate a random number for the ID
   echo "This Host is an Slave: ${SERVER_ID}"
   cp -v /init-slave.sh /docker-entrypoint-initdb.d/
-  cat > /etc/mysql/mysql.conf.d/repl-slave.cnf << EOF
+  cat > /etc/mysql/conf.d/repl-slave.cnf << EOF
 [mysqld]
 log-slave-updates
 master-info-repository=TABLE
@@ -50,7 +50,7 @@ relay-log-info-repository=TABLE
 relay-log-recovery=1
 EOF
 fi
-cat > /etc/mysql/mysql.conf.d/server-id.cnf << EOF
+cat > /etc/mysql/conf.d/server-id.cnf << EOF
 [mysqld]
 server-id=$SERVER_ID
 EOF
