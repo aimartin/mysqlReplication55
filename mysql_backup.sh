@@ -39,7 +39,7 @@ cleanup()
 }
 
 while read database; do
-mysqldump -u${USER} -p${PASS} --opt --flush-logs --single-transaction \
+/usr/local/mysql/bin/mysqldump -u${USER} -p${PASS} --opt --flush-logs --single-transaction \
     ${EVENTS} \
  ${database}| bzcat -zc > ${DIR}/${PREFIX}${database}_`date +%Y%m%d-%H%M%S`_`hostname`.sql.bz2
 done < /etc/databases_backup
